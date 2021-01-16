@@ -61,6 +61,7 @@ function Quests() {
         {quests.map((quest) => (
           <ListItem
             button
+            key={quest.questID}
             className={classes.listItem}
             onClick={() => {
               setDialogQuest(quest);
