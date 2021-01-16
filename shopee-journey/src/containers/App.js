@@ -1,11 +1,22 @@
-import './App.css';
-import Header from '../components/Header';
+import "./App.css";
+import HomePage from "./HomePage";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#f44336",
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-    </div>
+    <MuiThemeProvider theme={theme}>
+      <div className="App">
+        <HomePage />
+      </div>
+    </MuiThemeProvider>
   );
 }
 

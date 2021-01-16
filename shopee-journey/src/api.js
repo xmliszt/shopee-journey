@@ -1,4 +1,5 @@
 // Methods to connect with public APIs
+import { quests } from "./data/quests";
 
 // An example API function
 export async function getFoo() {
@@ -12,7 +13,11 @@ export async function getFoo() {
   } else {
     return {
       success: false,
-      error: 'Sample error',
+      error: "Sample error",
     };
   }
+}
+
+export function getTodayQuests() {
+  return quests;
 }
