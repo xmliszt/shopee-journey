@@ -1,8 +1,43 @@
-import './Header.css';
+import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { ArrowBack, BarChart } from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    appBar: {
+      background: 'linear-gradient(180deg, #f44336 30%, #ff7043 90%)',
+    },
+    backButton: {
+      marginRight: theme.spacing(2),
+    },
+    leaderboardButton: {},
+    title: {
+      flexGrow: 0.8,
+    },
+}));
 
 function Header() {
+
+  const classes = useStyles();
+
   return (
-    <div>Hello</div>
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar>
+          <IconButton edge="start" className={classes.backButton} color="inherit" aria-label="menu">
+            <ArrowBack />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            Shopee Journey
+          </Typography>
+          <IconButton edge="end" className={classes.leaderboardButton} color="inherit" aria-label="menu">
+            <BarChart />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </div>
   )
 };
 
