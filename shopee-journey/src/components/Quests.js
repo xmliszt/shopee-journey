@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { getTodayQuests } from "../api";
 import { makeStyles } from "@material-ui/core/styles";
-import { AssignmentTurnedIn, Close } from "@material-ui/icons";
+import { AssignmentTurnedIn, Close, Stars } from "@material-ui/icons";
 import { useState, useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     background:
-      "linear-gradient(45deg, rgba(299, 83, 34, 0.3), rgba(299, 138, 34, 0))",
+      "linear-gradient(45deg, rgba(299, 83, 34, 0.5), rgba(299, 138, 34, 0))",
+  },
+  specialListItem: {
+    background:
+      "linear-gradient(45deg, rgba(299, 83, 34, 0.5), rgba(194, 219, 13, 0.3), rgba(98, 217, 190, 0.1), rgba(299, 138, 34, 0))",
   },
   dialogTitle: {
     marginLeft: theme.spacing(1),
@@ -40,12 +44,18 @@ const useStyles = makeStyles((theme) => ({
 
 function Quests() {
   const [open, setOpen] = useState(false);
-  const [diaglogQuest, setDialogQuest] = useState(null);
+  const [dialogQuest, setDialogQuest] = useState(null);
   const [quests, setQuests] = useState([]);
   const classes = useStyles();
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleStartQuest = (quest) => {
+    //TODO: Set the targetted quest to "started", start timer if necessary
+    console.log(quest);
+    console.log("Quest started!");
   };
 
   useEffect(() => {
@@ -62,16 +72,18 @@ function Quests() {
           <ListItem
             button
             key={quest.questID}
-            className={classes.listItem}
+            className={quest.isQA ? classes.specialListItem : classes.listItem}
             onClick={() => {
               setDialogQuest(quest);
               setOpen(true);
             }}
           >
             <ListItemIcon>
-              <AssignmentTurnedIn color="primary" />
+              {quest.isQA ? <Stars color="primary" /> : <AssignmentTurnedIn />}
             </ListItemIcon>
-            <ListItemText>{quest.title}</ListItemText>
+            <ListItemText>
+              <span style={{ fontSize: 12 }}>{quest.title}</span>
+            </ListItemText>
             <Chip
               size="small"
               color="primary"
@@ -85,14 +97,18 @@ function Quests() {
         maxWidth="lg"
         fullWidth
         onClose={handleClose}
-        aria-labelledby={diaglogQuest === null ? "" : diaglogQuest.title}
+        aria-labelledby={dialogQuest === null ? "" : dialogQuest.title}
         open={open}
       >
         <DialogTitle onClose={handleClose}>
           <Toolbar>
-            <AssignmentTurnedIn color="primary" />
+            {dialogQuest === null ? null : dialogQuest.isQA ? (
+              <Stars color="primary" />
+            ) : (
+              <AssignmentTurnedIn color="primary" />
+            )}
             <Typography variant="body2" className={classes.dialogTitle}>
-              {diaglogQuest === null ? "" : diaglogQuest.title}
+              {dialogQuest === null ? "" : dialogQuest.title}
             </Typography>
             <IconButton
               aria-label="close"
@@ -105,15 +121,22 @@ function Quests() {
           <Chip
             size="small"
             color="primary"
-            label={`points: ${diaglogQuest === null ? 0 : diaglogQuest.score}`}
+            label={`points: ${dialogQuest === null ? 0 : dialogQuest.score}`}
             variant="outlined"
           />
         </DialogTitle>
         <DialogContent style={{ fontSize: 14 }}>
-          {diaglogQuest === null ? "" : diaglogQuest.content}
+          {dialogQuest === null ? "" : dialogQuest.content}
         </DialogContent>
         <DialogActions>
-          <Button className={classes.actionButton}>Start Quest</Button>
+          <Button
+            className={classes.actionButton}
+            onClick={() => {
+              handleStartQuest(dialogQuest);
+            }}
+          >
+            Start Quest
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
