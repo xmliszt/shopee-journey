@@ -13,10 +13,11 @@ import {
   Typography,
   IconButton, 
   Chip,
+  TextField,
 } from "@material-ui/core";
-import { getTodayQuests } from "../api";
+import { getTodayQuests, startQuest } from "../api";
 import { makeStyles } from "@material-ui/core/styles";
-import { AssignmentTurnedIn, Close } from "@material-ui/icons";
+import { Assignment, Close, ContactSupport, Face } from "@material-ui/icons";
 import { useState, useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     background:
-      "linear-gradient(45deg, rgba(299, 83, 34, 0.3), rgba(299, 138, 34, 0))",
+      "linear-gradient(45deg, rgba(299, 83, 34, 0.5), rgba(299, 138, 34, 0))",
   },
   dialogTitle: {
     marginLeft: theme.spacing(1),
@@ -36,16 +37,27 @@ const useStyles = makeStyles((theme) => ({
     background: "linear-gradient(180deg, #f44336 30%, #ff7043 90%)",
     color: "#fff",
   },
+  input_block: {
+    padding: 10,
+    margin: 10,
+  },
 }));
 
 function Quests() {
   const [open, setOpen] = useState(false);
-  const [diaglogQuest, setDialogQuest] = useState(null);
+  const [dialogQuest, setDialogQuest] = useState(null);
   const [quests, setQuests] = useState([]);
+  const [hasStarted, setHasStarted] = useState(false);
   const classes = useStyles();
 
   const handleClose = () => {
     setOpen(false);
+    setHasStarted(false);
+  };
+
+  const handleStartQuest = (quest) => {
+    console.log(`Quest [${quest.questID}] has started!`);
+    startQuest(quest.questID);
   };
 
   useEffect(() => {
@@ -69,9 +81,15 @@ function Quests() {
             }}
           >
             <ListItemIcon>
-              <AssignmentTurnedIn color="primary" />
+              {(() => {
+                if (quest.questType === "basic") return <Assignment />;
+                if (quest.questType === "qa") return <ContactSupport />;
+                if (quest.questType === "code_sharing") return <Face />;
+              })()}
             </ListItemIcon>
-            <ListItemText>{quest.title}</ListItemText>
+            <ListItemText>
+              <span style={{ fontSize: 12 }}>{quest.title}</span>
+            </ListItemText>
             <Chip
               size="small"
               color="primary"
@@ -85,14 +103,21 @@ function Quests() {
         maxWidth="lg"
         fullWidth
         onClose={handleClose}
-        aria-labelledby={diaglogQuest === null ? "" : diaglogQuest.title}
+        aria-labelledby={dialogQuest === null ? "" : dialogQuest.title}
         open={open}
       >
         <DialogTitle onClose={handleClose}>
           <Toolbar>
-            <AssignmentTurnedIn color="primary" />
+            {(() => {
+              if (dialogQuest.questType === "basic")
+                return <Assignment color="primary" />;
+              if (dialogQuest.questType === "qa")
+                return <ContactSupport color="primary" />;
+              if (dialogQuest.questType === "code_sharing")
+                return <Face color="primary" />;
+            })()}
             <Typography variant="body2" className={classes.dialogTitle}>
-              {diaglogQuest === null ? "" : diaglogQuest.title}
+              {dialogQuest === null ? "" : dialogQuest.title}
             </Typography>
             <IconButton
               aria-label="close"
@@ -105,15 +130,44 @@ function Quests() {
           <Chip
             size="small"
             color="primary"
-            label={`points: ${diaglogQuest === null ? 0 : diaglogQuest.score}`}
+            label={`points: ${dialogQuest === null ? 0 : dialogQuest.score}`}
             variant="outlined"
           />
         </DialogTitle>
         <DialogContent style={{ fontSize: 14 }}>
-          {diaglogQuest === null ? "" : diaglogQuest.content}
+          {dialogQuest === null ? "" : dialogQuest.content}
+          {(() => {
+            if (dialogQuest.questType === "qa") {
+              return dialogQuest.startedOn !== null || hasStarted ? (
+                <div className={classes.input_block}>
+                  <TextField
+                    id="qa_input"
+                    color="primary"
+                    style={{ margin: 8 }}
+                    label="Your answer..."
+                    helperText="Enter your answer to complete the quest"
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                  />
+                </div>
+              ) : null;
+            }
+          })()}
         </DialogContent>
         <DialogActions>
-          <Button className={classes.actionButton}>Start Quest</Button>
+          <Button
+            className={classes.actionButton}
+            onClick={() => {
+              handleStartQuest(dialogQuest);
+            }}
+          >
+            {hasStarted
+              ? dialogQuest.type !== "basic"
+                ? "Submit"
+                : "End Quest"
+              : "Start Quest"}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
