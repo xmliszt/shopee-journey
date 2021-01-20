@@ -1,6 +1,9 @@
 import "./App.css";
 import HomePage from "./HomePage";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import loadDummyData from "../dummyLoader";
+import { useEffect } from "react";
+
 
 const theme = createMuiTheme({
   palette: {
@@ -11,6 +14,11 @@ const theme = createMuiTheme({
 });
 
 function App() {
+
+  useEffect(() => {
+    loadDummyData();
+  }, []);
+
   return (
     <MuiThemeProvider theme={theme}>
       <div className="App">

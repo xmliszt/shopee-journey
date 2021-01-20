@@ -1,5 +1,4 @@
 // Methods to connect with public APIs
-import { quests } from "./data/quests";
 
 // An example API function
 export async function getFoo() {
@@ -19,5 +18,16 @@ export async function getFoo() {
 }
 
 export function getTodayQuests() {
-  return quests;
+  return JSON.parse(window.localStorage.getItem('quests'));
 }
+
+export function getLevelInfo() {
+  return JSON.parse(window.localStorage.getItem('levels'));
+}
+
+export function getProfileInfo() {
+  return JSON.parse(window.localStorage.getItem('profile'));
+}
+
+
+

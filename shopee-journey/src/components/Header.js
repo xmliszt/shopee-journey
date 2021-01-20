@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   appBar: {
-    background: "linear-gradient(180deg, #f44336 30%, #ff7043 90%)",
+    background: "linear-gradient(-180deg,#f53d2d,#f63)",
   },
   backButton: {
     marginRight: theme.spacing(2),

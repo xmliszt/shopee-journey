@@ -1,0 +1,12 @@
+.pBar {
+    background-color: #f44336;
+    color: #f44336 !important ;
+    height: 10px !important ;
+    width: 70% !important ;
+    margin: auto !important ;
+    
+}
+
+.bg-danger {
+    background-color: #f44336 !important;
+}
