@@ -4,7 +4,6 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import loadDummyData from "../dummyLoader";
 import { useEffect } from "react";
 
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -14,9 +13,9 @@ const theme = createMuiTheme({
 });
 
 function App() {
-
   useEffect(() => {
     loadDummyData();
+    console.log("Dummy data loaded!");
   }, []);
 
   return (

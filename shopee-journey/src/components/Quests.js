@@ -11,7 +11,7 @@ import {
   DialogActions,
   Toolbar,
   Typography,
-  IconButton, 
+  IconButton,
   Chip,
   TextField,
 } from "@material-ui/core";
@@ -109,12 +109,14 @@ function Quests() {
         <DialogTitle onClose={handleClose}>
           <Toolbar>
             {(() => {
-              if (dialogQuest.questType === "basic")
-                return <Assignment color="primary" />;
-              if (dialogQuest.questType === "qa")
-                return <ContactSupport color="primary" />;
-              if (dialogQuest.questType === "code_sharing")
-                return <Face color="primary" />;
+              if (dialogQuest !== null) {
+                if (dialogQuest.questType === "basic")
+                  return <Assignment color="primary" />;
+                if (dialogQuest.questType === "qa")
+                  return <ContactSupport color="primary" />;
+                if (dialogQuest.questType === "code_sharing")
+                  return <Face color="primary" />;
+              }
             })()}
             <Typography variant="body2" className={classes.dialogTitle}>
               {dialogQuest === null ? "" : dialogQuest.title}
@@ -137,21 +139,23 @@ function Quests() {
         <DialogContent style={{ fontSize: 14 }}>
           {dialogQuest === null ? "" : dialogQuest.content}
           {(() => {
-            if (dialogQuest.questType === "qa") {
-              return dialogQuest.startedOn !== null || hasStarted ? (
-                <div className={classes.input_block}>
-                  <TextField
-                    id="qa_input"
-                    color="primary"
-                    style={{ margin: 8 }}
-                    label="Your answer..."
-                    helperText="Enter your answer to complete the quest"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                  />
-                </div>
-              ) : null;
+            if (dialogQuest !== null) {
+              if (dialogQuest.questType === "qa") {
+                return dialogQuest.startedOn !== null || hasStarted ? (
+                  <div className={classes.input_block}>
+                    <TextField
+                      id="qa_input"
+                      color="primary"
+                      style={{ margin: 8 }}
+                      label="Your answer..."
+                      helperText="Enter your answer to complete the quest"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                    />
+                  </div>
+                ) : null;
+              }
             }
           })()}
         </DialogContent>

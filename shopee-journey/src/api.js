@@ -20,7 +20,7 @@ export async function getFoo() {
 // Quests API
 export function getTodayQuests() {
   let quests = JSON.parse(window.localStorage.getItem("quests"));
-  return quests === undefined ? [] : quests;
+  return quests === null ? [] : quests;
 }
 
 export function startQuest(questID) {
