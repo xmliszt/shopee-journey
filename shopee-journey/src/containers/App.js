@@ -2,7 +2,30 @@ import "./App.css";
 import HomePage from "./HomePage";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import loadDummyData from "../dummyLoader";
-import { useEffect } from "react";
+import React, { Component,useEffect } from 'react';
+
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: {
+//       main: "#f44336",
+//     },
+//   },
+// });
+
+// function App() {
+//   useEffect(() => {
+//     loadDummyData();
+//     console.log("Dummy data loaded!");
+//   }, []);
+
+//   return (
+//     <MuiThemeProvider theme={theme}>
+//       <div className="App">
+//         <HomePage />
+//       </div>
+//     </MuiThemeProvider>
+//   );
+// }
 
 const theme = createMuiTheme({
   palette: {
@@ -12,19 +35,24 @@ const theme = createMuiTheme({
   },
 });
 
-function App() {
-  useEffect(() => {
+class App extends Component {
+  constructor(){
+    super();
     loadDummyData();
-    console.log("Dummy data loaded!");
-  }, []);
+    
+  }
 
-  return (
-    <MuiThemeProvider theme={theme}>
-      <div className="App">
-        <HomePage />
-      </div>
-    </MuiThemeProvider>
-  );
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <HomePage />
+        </div>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 export default App;
+
+

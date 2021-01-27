@@ -17,6 +17,7 @@ export async function getFoo() {
   }
 }
 
+
 // Quests API
 export function getTodayQuests() {
   let quests = JSON.parse(window.localStorage.getItem("quests"));
@@ -33,7 +34,7 @@ export function startQuest(questID) {
       }
       updatedQuests.push(quest);
     }
-    window.localStorage.setItem("quests", JSON.stringify(updatedQuests));
+    window.localStorage.Item("quests", JSON.stringify(updatedQuests));
   }
 }
 
@@ -47,4 +48,20 @@ export function getLevelInfo() {
 
 export function getProfileInfo() {
   return JSON.parse(window.localStorage.getItem("profile"));
+}
+
+export function addScore(toAdd) {
+  let profile = JSON.parse(window.localStorage.getItem("profile"));
+  let newScore = profile['score'] + toAdd;
+  let currentLevel = profile['level'];
+  let nextScore = JSON.parse(window.localStorage.getItem("levels"))[currentLevel]['score'];
+  if (newScore > nextScore){
+    newScore -= nextScore;
+    profile['score'] = newScore;
+    profile['level'] += 1 ;
+    window.localStorage.setItem("profile", JSON.stringify(profile));
+  } else {
+    profile['score'] = newScore;
+    window.localStorage.setItem("profile", JSON.stringify(profile));
+  }
 }
