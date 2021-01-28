@@ -60,21 +60,6 @@ function Quests() {
     startQuest(quest.questID);
   };
 
-  // Submit the answer and check if answer is correct
-  const handleSubmitQA = (quest, answer) => {};
-
-  // Validate if the answer is correct
-  const validateQA = (answer) => {};
-
-  // Submit the users input and call API to connect to them [Shopee Public API?]
-  const handleSubmitCodeSharing = (quest, ...users) => {};
-
-  // Validate if the user exists [Shopee Public API?]
-  const validateUser = (user) => {};
-
-  // Redirect user to the quest-specific target page
-  const handleBasicRedirect = (quest) => {};
-
   useEffect(() => {
     setQuests(getTodayQuests());
   }, []);
@@ -178,24 +163,13 @@ function Quests() {
           <Button
             className={classes.actionButton}
             onClick={() => {
-              if (!hasStarted || dialogQuest.startedOn === null) {
-                handleStartQuest(dialogQuest);
-              } else {
-                if (dialogQuest.questType === "basic") {
-                  handleBasicRedirect(dialogQuest);
-                } else if (dialogQuest.questType === "qa") {
-                  let answer = document.getElementById("qa_input").value;
-                  handleSubmitQA(dialogQuest, answer);
-                } else if (dialogQuest.questType === "code_sharing") {
-                  handleSubmitCodeSharing(dialogQuest);
-                }
-              }
+              handleStartQuest(dialogQuest);
             }}
           >
-            {dialogQuest.startedOn !== null || hasStarted
-              ? dialogQuest.questType !== "basic"
+            {hasStarted
+              ? dialogQuest.type !== "basic"
                 ? "Submit"
-                : "Open Quest"
+                : "End Quest"
               : "Start Quest"}
           </Button>
         </DialogActions>

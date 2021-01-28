@@ -39,13 +39,6 @@ const Profiledisplay = (props) => {
       <h4>{props.username ? props.username : ""}</h4>
       <h4>Level {props.level ? props.level : 0} </h4>
       <Box display="flex" alignItems="center">
-        <Box minWidth={55}>
-            <Typography variant="body2" color="textSecondary">{
-                props.score
-                    ? props.score + '/' + props.nextscore
-                    : 0}
-            </Typography>
-        </Box>
         <Box width="100%" mr={1}>
         <BorderLinearProgress
             variant="determinate"
@@ -59,7 +52,13 @@ const Profiledisplay = (props) => {
             }
         />
         </Box>
-        
+        <Box minWidth={55}>
+            <Typography variant="body2" color="textSecondary">{
+                props.score
+                    ? props.score + '/' + props.nextscore
+                    : 0}
+            </Typography>
+        </Box>
       </Box>
       <Button value = '50' onClick = {() => props.onaddscore(50)} >test+50</Button>
       <Stepper/>
