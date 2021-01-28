@@ -52,7 +52,8 @@ export function getProfileInfo() {
 
 export function addScore(toAdd) {
   let profile = JSON.parse(window.localStorage.getItem("profile"));
-  let newScore = profile['score'] + toAdd;
+  if (profile) {
+    let newScore = profile['score'] + toAdd;
   let currentLevel = profile['level'];
   let nextScore = JSON.parse(window.localStorage.getItem("levels"))[currentLevel]['score'];
   if (newScore > nextScore){
@@ -64,4 +65,6 @@ export function addScore(toAdd) {
     profile['score'] = newScore;
     window.localStorage.setItem("profile", JSON.stringify(profile));
   }
+  }
+  
 }

@@ -50,7 +50,7 @@ export default function HorizontalNonLinearStepper() {
   const [completed, setCompleted] = useState({});
   const steps = getSteps();
   
-  const currentLevel = getProfileInfo()['level'];
+  const currentLevel = getProfileInfo()['level'] 
 
   const totalSteps = () => {
     return steps.length;

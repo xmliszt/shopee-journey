@@ -1,6 +1,7 @@
 import * as dummyData from "./data";
 
 export default function loadDummyData() {
+  console.log("dummy data loaded")
   let levels = dummyData.levels;
   let profile = dummyData.profile;
   let quests = dummyData.quests;

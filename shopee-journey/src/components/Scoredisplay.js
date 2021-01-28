@@ -39,16 +39,24 @@ function Scoredisplay() {
 
   
   // useEffect(() => {
-  //   window.addEventListener('profile',setProfile(getProfileInfo()));
-  //   return () => {
-  //     window.removeEventListener('profile',setProfile(getProfileInfo()))
+  //   console.log("I am here");
+  //   function handleProfileChange() {
+  //     console.log("I am inside");
+  //     setProfile(getProfileInfo());
   //   }
+  //   window.addEventListener('storage',handleProfileChange);
+  //   return () => {
+  //     window.removeEventListener('storage',handleProfileChange)
+  //   }
+  //   // console.log('am I spamming?')
+  //   // setProfile(getProfileInfo());
   // },[]);
 
   useEffect(() => {
-    console.log('am I spamming?')
     setProfile(getProfileInfo());
-  },[profile]);
+  },[]);
+
+  
 
   return (
     <div className={classes.root}>
