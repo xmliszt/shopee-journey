@@ -3,6 +3,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from 'screens/HomePage';
+import './style.scss';
 
 const theme = createMuiTheme({
   palette: {
@@ -14,13 +15,15 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Router>
-        <Switch>
-          <Route path='/' component={HomePage} />
-        </Switch>
-      </Router>
-    </MuiThemeProvider>
+    <div className='app'>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route path='/' component={HomePage} />
+          </Switch>
+        </Router>
+      </MuiThemeProvider>
+    </div>
   );
 }
 
