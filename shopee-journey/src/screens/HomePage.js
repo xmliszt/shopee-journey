@@ -38,6 +38,7 @@ class HomePage extends Component {
     return (
       <div className='Home'>
         <Header />
+        <div style={{ height: 80 }}></div>
         <Profiledisplay
           score={this.state.score}
           level={this.state.level}
