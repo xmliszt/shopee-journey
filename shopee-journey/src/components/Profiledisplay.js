@@ -1,10 +1,9 @@
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import Stepper from "./Stepper";
-import { Button } from "@material-ui/core";
-
+import { Button, ButtonGroup } from "@material-ui/core";
 
 const Profiledisplay = (props) => {
   const BorderLinearProgress = withStyles((theme) => ({
@@ -20,7 +19,7 @@ const Profiledisplay = (props) => {
       backgroundColor: "#f44336",
     },
   }))(LinearProgress);
-  
+
   const useStyles = makeStyles({
     root: {
       flexGrow: 1,
@@ -33,37 +32,38 @@ const Profiledisplay = (props) => {
     return Math.round((currentScore / nextScore) * 100);
   };
 
-  
   return (
     <div className={classes.root}>
       <h4>{props.username ? props.username : ""}</h4>
       <h4>Level {props.level ? props.level : 0} </h4>
       <Box display="flex" alignItems="center">
         <Box width="100%" mr={1}>
-        <BorderLinearProgress
+          <BorderLinearProgress
             variant="determinate"
             value={
-            props.score
-                ? calculateProgress(
-                    props.score,
-                    props.nextscore
-                )
-                : 0
+              props.score ? calculateProgress(props.score, props.nextscore) : 0
             }
-        />
+          />
         </Box>
         <Box minWidth={55}>
-            <Typography variant="body2" color="textSecondary">{
-                props.score
-                    ? props.score + '/' + props.nextscore
-                    : 0}
-            </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {props.score + "/" + props.nextscore}
+          </Typography>
         </Box>
       </Box>
-      <Button value = '50' onClick = {() => props.onaddscore(50)} >test+50</Button>
-      <Stepper/>
+      <ButtonGroup
+        style={{ marginTop: 10 }}
+        variant="contained"
+        color="primary"
+      >
+        <Button onClick={() => props.onaddscore(10)}>+10</Button>
+        <Button onClick={() => props.onaddscore(20)}>+20</Button>
+        <Button onClick={() => props.onaddscore(30)}>+30</Button>
+        <Button onClick={() => props.onaddscore(50)}>+50</Button>
+      </ButtonGroup>
+      <Stepper />
     </div>
   );
-}
+};
 
 export default Profiledisplay;

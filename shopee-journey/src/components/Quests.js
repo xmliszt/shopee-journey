@@ -14,11 +14,23 @@ import {
   IconButton,
   Chip,
   TextField,
+  Snackbar,
 } from "@material-ui/core";
-import { getTodayQuests, startQuest } from "../api";
+import MuiAlert from "@material-ui/lab/Alert";
+import { getTodayQuests, startQuest, endQuest } from "../api";
 import { makeStyles } from "@material-ui/core/styles";
-import { Assignment, Close, ContactSupport, Face } from "@material-ui/icons";
+import {
+  Assignment,
+  Close,
+  ContactSupport,
+  Face,
+  CheckCircle,
+} from "@material-ui/icons";
 import { useState, useEffect } from "react";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,21 +55,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Quests() {
+function Quests(props) {
   const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertStyle, setAlertStyle] = useState("info");
   const [dialogQuest, setDialogQuest] = useState(null);
   const [quests, setQuests] = useState([]);
   const [hasStarted, setHasStarted] = useState(false);
   const classes = useStyles();
+
+  const handleAlertClose = (_, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
+  };
 
   const handleClose = () => {
     setOpen(false);
     setHasStarted(false);
   };
 
-  const handleStartQuest = (quest) => {
-    console.log(`Quest [${quest.questID}] has started!`);
-    startQuest(quest.questID);
+  const pushAlert = (msg, style) => {
+    setAlertMsg(msg);
+    setAlertStyle(style);
+    setAlertOpen(true);
+  };
+
+  const handleQuestAction = (quest) => {
+    if (quest.startedOn == null) {
+      startQuest(quest.questID);
+      pushAlert("Quest has started!", "warning");
+    } else {
+      endQuest(quest.questID);
+      props.onaddscore(quest.score);
+      pushAlert(
+        `Quest has finished! You have gained +${quest.score} points!`,
+        "success"
+      );
+    }
+    setQuests(getTodayQuests());
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -66,6 +105,15 @@ function Quests() {
 
   return (
     <div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleAlertClose} severity={alertStyle}>
+          {alertMsg}
+        </Alert>
+      </Snackbar>
       <List
         className={classes.root}
         subheader={<ListSubheader>Today's Quests</ListSubheader>}
@@ -79,10 +127,17 @@ function Quests() {
               setDialogQuest(quest);
               setOpen(true);
             }}
+            disabled={quest.isDone}
           >
             <ListItemIcon>
               {(() => {
-                if (quest.questType === "basic") return <Assignment />;
+                if (quest.isDone) return <CheckCircle color="primary" />;
+                if (quest.questType === "basic")
+                  return (
+                    <Assignment
+                      color={quest.startedOn !== null ? "primary" : "inherit"}
+                    />
+                  );
                 if (quest.questType === "qa") return <ContactSupport />;
                 if (quest.questType === "code_sharing") return <Face />;
               })()}
@@ -163,13 +218,15 @@ function Quests() {
           <Button
             className={classes.actionButton}
             onClick={() => {
-              handleStartQuest(dialogQuest);
+              handleQuestAction(dialogQuest);
             }}
           >
-            {hasStarted
-              ? dialogQuest.type !== "basic"
-                ? "Submit"
-                : "End Quest"
+            {dialogQuest != null
+              ? dialogQuest.startedOn !== null || hasStarted
+                ? dialogQuest.type !== "basic"
+                  ? "Submit"
+                  : "Finish Quest"
+                : "Start Quest"
               : "Start Quest"}
           </Button>
         </DialogActions>

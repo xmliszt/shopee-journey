@@ -1,6 +1,6 @@
 export const profile = {
-        username: 'msShopeeholic',
-        name: 'Samantha Tan Yi Xing',
-        score: 75,
-        level: 3,
-    };
+  username: "msShopeeholic",
+  name: "Samantha Tan Yi Xing",
+  score: 0,
+  level: 1,
+};
