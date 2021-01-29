@@ -37,8 +37,8 @@ const Profiledisplay = (props) => {
     <div className={classes.root}>
       <h4>{props.username ? props.username : ''}</h4>
       <h4>Level {props.level ? props.level : 0} </h4>
-      <Box display='flex' alignItems='center'>
-        <Box width='100%' mr={1}>
+      <Box display='flex' alignItems='center' justifyContent='center'>
+        <Box width='80%' mr={1}>
           <BorderLinearProgress
             variant='determinate'
             value={
@@ -52,16 +52,6 @@ const Profiledisplay = (props) => {
           </Typography>
         </Box>
       </Box>
-      <ButtonGroup
-        style={{ marginTop: 10 }}
-        variant='contained'
-        color='primary'
-      >
-        <Button onClick={() => props.onaddscore(10)}>+10</Button>
-        <Button onClick={() => props.onaddscore(20)}>+20</Button>
-        <Button onClick={() => props.onaddscore(30)}>+30</Button>
-        <Button onClick={() => props.onaddscore(50)}>+50</Button>
-      </ButtonGroup>
       <Stepper />
     </div>
   );

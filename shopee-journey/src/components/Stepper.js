@@ -30,7 +30,12 @@ function Alert(props) {
 }
 
 function getSteps() {
-  return [1, 2, 3, 4, 5];
+  let levelsData = getLevelInfo();
+  let levels = [];
+  Object.keys(levelsData).forEach((l) => {
+    levels.push(l);
+  });
+  return levels;
 }
 
 function getStepContent(step) {
@@ -85,16 +90,12 @@ export default function HorizontalNonLinearStepper() {
     setActiveStep(newActiveStep);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
 
   const handleComplete = () => {
-    pushAlert('Award claimed!', 'success');
+    pushAlert('Reward claimed!', 'success');
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -145,23 +146,6 @@ export default function HorizontalNonLinearStepper() {
               {getStepContent(activeStep)}
             </Typography>
             <div>
-              <Button
-                variant='contained'
-                color='default'
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.button}
-              >
-                Back
-              </Button>
-              <Button
-                variant='contained'
-                color='default'
-                onClick={handleNext}
-                className={classes.button}
-              >
-                Next
-              </Button>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
                   <Typography variant='caption' className={classes.completed}>
