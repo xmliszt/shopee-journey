@@ -1,0 +1,44 @@
+body {
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Open Sans', sans-serif, Arial;
+  line-height: 1.2;
+  letter-spacing: 0;
+
+  -webkit-overflow-scrolling: auto;
+}
+
+div,
+span {
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: auto;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+img {
+  max-width: 100%;
+}
+
+a,
+a:hover,
+a:active,
+a:visited {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  text-decoration: none;
+}
+
+span.text {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+span.text--one-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-select {
+  user-select: none;
+}

@@ -1,0 +1,25 @@
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-weight: 500;
+  }
+
+  .description {
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+
+  .linkContainer {
+    display: flex;
+    width: 200px;
+    padding: 20px 15px;
+  }
+
+  .iconLink {
+    margin-right: 8px;
+  }
+}

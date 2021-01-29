@@ -1,0 +1,102 @@
+$shopee-primary: #ee4d2d;
+$shopee-mall: #d0011b;
+$shopee-blue: #113366;
+
+.navbarContainer {
+  padding: 0;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--navbar-height);
+  display: flex;
+
+  @media (max-width: 768px) {
+    height: auto;
+    max-height: var(--navbar-height);
+    display: block;
+
+    transition: max-height 0.7s;
+    overflow: hidden;
+
+    &.showMenu {
+      max-height: 100vh;
+    }
+  }
+}
+
+.menu {
+  list-style: none;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $shopee-primary;
+
+  &.active {
+    background: $shopee-mall;
+  }
+
+  @media (max-width: 768px) {
+    height: var(--navbar-height);
+  }
+
+  .link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    height: 100%;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+
+      &.home {
+        width: 50px;
+      }
+    }
+  }
+}
+
+.backButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--navbar-height);
+  display: none;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+
+.showMenuButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: var(--navbar-height);
+  display: none;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+
+  .burgerIcon {
+    width: 25px;
+    fill: white;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+.shopeeLogo {
+  height: calc(var(--navbar-height) - 15px);
+}

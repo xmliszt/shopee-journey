@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepButton from "@material-ui/core/StepButton";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import { getLevelInfo, getProfileInfo } from "../api";
+import * as React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepButton from '@material-ui/core/StepButton';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { getLevelInfo, getProfileInfo } from '../api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   button: {
     marginRight: theme.spacing(1),
   },
   completed: {
-    display: "inline-block",
+    display: 'inline-block',
   },
   instructions: {
     marginTop: theme.spacing(1),
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 function getSteps() {
@@ -34,16 +34,16 @@ function getSteps() {
 }
 
 function getStepContent(step) {
-  return getLevelInfo()[step + 1]["promo"];
+  return getLevelInfo()[step + 1]['promo'];
 }
 
 export default function HorizontalNonLinearStepper() {
   const classes = useStyles();
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-  const [alertStyle, setAlertStyle] = useState("info");
-  const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState({});
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertMsg, setAlertMsg] = React.useState('');
+  const [alertStyle, setAlertStyle] = React.useState('info');
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [completed, setCompleted] = React.useState({});
   const steps = getSteps();
 
   const pushAlert = (msg, style) => {
@@ -53,13 +53,13 @@ export default function HorizontalNonLinearStepper() {
   };
 
   const handleAlertClose = (_, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setAlertOpen(false);
   };
 
-  const currentLevel = getProfileInfo()["level"];
+  const currentLevel = getProfileInfo()['level'];
 
   const totalSteps = () => {
     return steps.length;
@@ -94,7 +94,7 @@ export default function HorizontalNonLinearStepper() {
   };
 
   const handleComplete = () => {
-    pushAlert("Award claimed!", "success");
+    pushAlert('Award claimed!', 'success');
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -107,8 +107,6 @@ export default function HorizontalNonLinearStepper() {
   };
 
   const isValid = (cLvl, cStep) => {
-    console.log(`Current Level: ${cLvl}`);
-    console.log(`Current Step: ${cStep}`);
     return cLvl + 1 > cStep;
   };
 
@@ -148,8 +146,8 @@ export default function HorizontalNonLinearStepper() {
             </Typography>
             <div>
               <Button
-                variant="contained"
-                color="default"
+                variant='contained'
+                color='default'
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 className={classes.button}
@@ -157,8 +155,8 @@ export default function HorizontalNonLinearStepper() {
                 Back
               </Button>
               <Button
-                variant="contained"
-                color="default"
+                variant='contained'
+                color='default'
                 onClick={handleNext}
                 className={classes.button}
               >
@@ -166,13 +164,13 @@ export default function HorizontalNonLinearStepper() {
               </Button>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
-                  <Typography variant="caption" className={classes.completed}>
+                  <Typography variant='caption' className={classes.completed}>
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     onClick={handleComplete}
                     disabled={isValid(activeStep, currentLevel)}
                   >

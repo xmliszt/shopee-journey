@@ -1,0 +1,23 @@
+:local {
+  .inputItemSearch {
+    margin-right: 10px;
+  }
+
+  .searchResults {
+    font-size: 0.875rem;
+  }
+
+  .itemDetailContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .itemImage {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .itemName {
+    margin: 10px 0 15px;
+  }
+}

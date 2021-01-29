@@ -1,0 +1,15 @@
+:root {
+  --navbar-height: 50px;
+
+  @media (max-height: 768px) {
+    --navbar-height: 44px;
+  }
+}
+
+.app-container {
+  margin: 0;
+}
+
+.content {
+  padding: 20px;
+}
