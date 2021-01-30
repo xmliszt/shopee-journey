@@ -37,7 +37,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className='Home'>
-        <Header />
+        <Header title='Shopee Journey - Home' />
         <div style={{ height: 80 }}></div>
         <Profiledisplay
           score={this.state.score}

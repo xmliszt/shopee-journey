@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header() {
+function Header(props) {
   const classes = useStyles();
 
   return (
@@ -37,9 +37,9 @@ function Header() {
             </IconButton>
           </LinkBack>
           <Typography variant='h6' className={classes.title}>
-            Shopee Journey
+            {props.title}
           </Typography>
-          <Link to='/browse?q=canon' replace>
+          <Link to='/browse?q=canon'>
             <IconButton edge='end' aria-label='leaderboard'>
               <BarChart style={{ color: '#fff' }} />
             </IconButton>

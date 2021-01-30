@@ -142,7 +142,7 @@ function BrowsePage({ location }) {
           {alertMsg}
         </Alert>
       </Snackbar>
-      <Header />
+      <Header title='Shopee Journey - Browse Items' />
       <div style={{ height: 60 }}></div>
 
       <div id='browseAnchor' className={classes.gridContainer}>
