@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
@@ -8,6 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { getLevelInfo, getProfileInfo } from '../api';
+import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
+import RedeemIcon from '@material-ui/icons/Redeem';
+import ExploreIcon from '@material-ui/icons/Explore';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import StepConnector from '@material-ui/core/StepConnector';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +28,23 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  unlocked: {
+    color: '#f44336',
+  },
+  locked: {
+    color: 'rgba(244, 67, 54, 0.3)',
+  },
+  activeUnlocked: {
+    color: '#ffffff',
+    backgroundColor: '#f44336',
+  },
+  activeLocked: {
+    color: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(244, 67, 54, 0.3)',
+  },
+
 }));
+
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -99,7 +120,6 @@ export default function HorizontalNonLinearStepper() {
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
-    handleNext();
   };
 
   const handleReset = () => {
@@ -107,9 +127,33 @@ export default function HorizontalNonLinearStepper() {
     setCompleted({});
   };
 
-  const isValid = (cLvl, cStep) => {
+  const isUnlocked = (cLvl, cStep) => {
     return cLvl + 1 > cStep;
   };
+
+  const getIcon = (index,cLvl,cStep) => {
+    if (cStep != index){
+      if (index+1 == cLvl && completed[index]) {
+        return <div> <PersonPinCircleIcon className={classes.unlocked}/> </div>
+      } else if (completed[index]) {
+        return <div> <CheckCircleIcon className={classes.unlocked}/> </div>
+      } else if (index+1 > cLvl) {
+        return <div> <ExploreIcon className={classes.locked}/> </div>
+      } else {
+        return <div> <RedeemIcon className={classes.unlocked}/> </div>
+      }
+    } else {
+      if (index+1 == cLvl && completed[index]) {
+        return <div> <PersonPinCircleIcon className={classes.activeUnlocked}/> </div>
+      } else if (completed[index]) {
+        return <div> <CheckCircleIcon className={classes.activeUnlocked}/> </div>
+      } else if (index+1 > cLvl) {
+        return <div> <ExploreIcon className={classes.activeLocked}/> </div>
+      } else {
+        return <div> <RedeemIcon className={classes.activeUnlocked}/> </div>
+      }
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -122,13 +166,15 @@ export default function HorizontalNonLinearStepper() {
           {alertMsg}
         </Alert>
       </Snackbar>
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper nonLinear activeStep={activeStep} alternativeLabel  >
         {steps.map((label, index) => (
           <Step key={label}>
             <StepButton
               onClick={handleStep(index)}
               completed={completed[index]}
-            ></StepButton>
+              icon={getIcon(index,currentLevel,activeStep)}
+            >{label}</StepButton>
+            
           </Step>
         ))}
       </Stepper>
@@ -156,7 +202,7 @@ export default function HorizontalNonLinearStepper() {
                     variant='contained'
                     color='primary'
                     onClick={handleComplete}
-                    disabled={isValid(activeStep, currentLevel)}
+                    disabled={isUnlocked(activeStep, currentLevel)}
                   >
                     Claim Reward
                   </Button>

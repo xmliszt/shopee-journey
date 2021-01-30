@@ -4,8 +4,14 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Stepper from './Stepper';
+import { Button, ButtonGroup } from '@material-ui/core';
+import { getImageUrl } from 'libraries/utils/url';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
 
 const Profiledisplay = (props) => {
+
+  //---------------------------------------------------UI Styling---------------------------------------------------
   const BorderLinearProgress = withStyles((theme) => ({
     root: {
       height: 10,
@@ -28,9 +34,12 @@ const Profiledisplay = (props) => {
 
   const classes = useStyles();
 
+  //---------------------------------------------------Utilities---------------------------------------------------
+
   const calculateProgress = (currentScore, nextScore) => {
     return Math.round((currentScore / nextScore) * 100);
   };
+
 
   const clearLocalStorage = () => {
     window.localStorage.clear();
@@ -38,6 +47,7 @@ const Profiledisplay = (props) => {
 
   return (
     <div className={classes.root}>
+      <img src={getImageUrl(props.avatar)} width='100' />
       <h4 onClick={clearLocalStorage}>
         {props.username ? props.username : ''}
       </h4>
