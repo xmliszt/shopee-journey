@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import { getLevelInfo, getProfileInfo } from '../api';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  claimRewards:{
+    maxWidth:345,
+  }
 }));
 
 function Alert(props) {
@@ -141,14 +148,17 @@ export default function HorizontalNonLinearStepper() {
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
-          <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </Typography>
-            <div>
+          <div className={classes.claimRewards} style={{display:"inline-block"}}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography className={classes.instructions} variant="body2" color="textSecondary" component="p">
+                  {getStepContent(activeStep)}
+                </Typography>
+              </CardContent>
+              <div style={{paddingBottom:15}}>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
-                  <Typography variant='caption' className={classes.completed}>
+                  <Typography variant='caption' color="textSecondary" className={classes.completed}>
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
@@ -162,6 +172,11 @@ export default function HorizontalNonLinearStepper() {
                   </Button>
                 ))}
             </div>
+
+              
+            </Card>
+            
+            
           </div>
         )}
       </div>
