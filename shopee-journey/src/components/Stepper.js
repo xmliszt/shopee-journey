@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
-<<<<<<< HEAD
   unlocked: {
     color: '#f44336',
   },
@@ -48,11 +47,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(244, 67, 54, 0.3)',
   },
 
-=======
   claimRewards:{
     maxWidth:345,
   }
->>>>>>> ui/stepper-typography
 }));
 
 
