@@ -2,23 +2,6 @@
 import consts from 'consts';
 import { get } from 'libraries/utils/fetch';
 
-// An example API function
-export async function getFoo() {
-  let response = fetch();
-  if (response.ok) {
-    let json = await response.json();
-    return {
-      success: true,
-      data: json,
-    };
-  } else {
-    return {
-      success: false,
-      error: 'Sample error',
-    };
-  }
-}
-
 // Search Items
 export async function getSearchItems(searchQuery, pageNumber) {
   const response = await get(`${consts.API_URL}item/search`, {
@@ -85,10 +68,22 @@ export function getLevelInfo() {
   return JSON.parse(window.localStorage.getItem('levels'));
 }
 
+export function getLevelMaxScore(level) {
+  const levels = JSON.parse(window.localStorage.getItem('levels'));
+  return levels[level].score;
+}
+
 // Profile API
 
 export function getProfileInfo() {
   return JSON.parse(window.localStorage.getItem('profile'));
+}
+
+// Connection API
+
+export function getUserConnections() {
+  const profile = JSON.parse(window.localStorage.getItem('profile'));
+  return profile.connections;
 }
 
 export function addScore(toAdd) {
