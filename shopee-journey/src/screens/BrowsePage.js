@@ -3,13 +3,26 @@ import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import { makeStyles } from '@material-ui/core/styles';
 import { getSearchItems } from '../api';
-import { Paper, Snackbar, CircularProgress } from '@material-ui/core';
+import { Paper, Snackbar } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import MuiAlert from '@material-ui/lab/Alert';
 import { getImageUrl } from 'libraries/utils/url';
+import { withRouter } from 'react-router-dom';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
+}
+
+function useQuery(location) {
+  var search = location.search.substring(1);
+  return JSON.parse(
+    '{"' +
+      decodeURI(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"') +
+      '"}'
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +73,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BrowsePage(props) {
+function BrowsePage({ location }) {
+  const query = useQuery(location);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
   const [alertStyle, setAlertStyle] = useState('info');
@@ -86,7 +100,7 @@ function BrowsePage(props) {
 
   const fetchItems = async (page) => {
     setLoading(true);
-    let response = await getSearchItems(props.query, page);
+    let response = await getSearchItems(query.q, page);
     if (response.success) {
       if (response.data.length === 0) {
         setNoMore(true);
@@ -96,7 +110,7 @@ function BrowsePage(props) {
         setPage(newPage);
       }
     } else {
-      pushAlert(response.error, 'danger');
+      pushAlert(response.error, 'error');
     }
     setLoading(false);
   };
@@ -158,13 +172,7 @@ function BrowsePage(props) {
           </Paper>
         ))}
       </div>
-      {loading ? (
-        <div className={classes.noMore}>
-          <CircularProgress />
-        </div>
-      ) : (
-        ''
-      )}
+      {loading ? <div className={classes.noMore}>Loading...</div> : ''}
       {noMore ? (
         <div className={classes.noMore}>There is no more item ...</div>
       ) : (
@@ -174,4 +182,4 @@ function BrowsePage(props) {
   );
 }
 
-export default BrowsePage;
+export default withRouter(BrowsePage);

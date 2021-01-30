@@ -39,7 +39,7 @@ function Header() {
           <Typography variant='h6' className={classes.title}>
             Shopee Journey
           </Typography>
-          <Link to='/browse' replace>
+          <Link to='/browse?q=something' replace>
             <IconButton edge='end' aria-label='leaderboard'>
               <BarChart style={{ color: '#fff' }} />
             </IconButton>
