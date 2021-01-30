@@ -14,7 +14,7 @@ class HomePage extends Component {
       profile: getProfileInfo(),
       level: getProfileInfo()['level'],
       score: getProfileInfo()['score'],
-      username: "Usernameless",
+      username: "Loading",
       name: getProfileInfo()['name'],
       nextScore: getLevelInfo()[getProfileInfo()['level']]['score'],
       avatar: null,
@@ -22,14 +22,19 @@ class HomePage extends Component {
   }
 
   async componentDidMount() {
+
     let profile = await getUserInfo();
     if (profile["success"]){
       let data = profile["data"];
       this.setState({username:data.user_name});
+      this.setState({avatar:data.avatar});
+      console.log(data.avatar)
     } else {
-      let data = profile["error"];
+      let data = profile["error_message"];
       this.setState({username:data});
+      this.setState({avatar:false});
     }
+
   }
 
   _getNextScore = () => {
@@ -57,6 +62,7 @@ class HomePage extends Component {
           name={this.state.name}
           nextscore={this.state.nextScore}
           onaddscore={this._onAddScore.bind(this)}
+          avatar={this.state.avatar}
         />
         <Quests onaddscore={this._onAddScore.bind(this)} />
       </div>

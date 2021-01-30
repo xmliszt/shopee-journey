@@ -25,7 +25,8 @@ export async function getUserInfo() {
   if (!response || response.error || !response.data) {
     return {
       success: false,
-      error: "Please make sure your HACKATHON_USER_TOKEN is up-to-date or you are logged-in in Shopee App",
+      error: response.error,
+      error_message: 'Please make sure your HACKATHON_USER_TOKEN is up-to-date or you are logged-in in Shopee App',
     };
   } else {
     return {

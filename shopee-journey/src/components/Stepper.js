@@ -3,11 +3,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
+import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { getLevelInfo, getProfileInfo } from '../api';
+import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
+import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
+import PinDropIcon from '@material-ui/icons/PinDrop';
+import RedeemIcon from '@material-ui/icons/Redeem';
+import StepConnector from '@material-ui/core/StepConnector';
+import ExploreIcon from '@material-ui/icons/Explore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,7 +106,6 @@ export default function HorizontalNonLinearStepper() {
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
-    handleNext();
   };
 
   const handleReset = () => {
@@ -107,9 +113,19 @@ export default function HorizontalNonLinearStepper() {
     setCompleted({});
   };
 
-  const isValid = (cLvl, cStep) => {
+  const isUnlocked = (cLvl, cStep) => {
     return cLvl + 1 > cStep;
   };
+
+  const getIcon = (index,cLvl) => {
+    if (index+1 == cLvl) {
+      return <div> <PersonPinCircleIcon/> </div>
+    } else if (index+1 > cLvl) {
+      return <div> <ExploreIcon/> </div>
+    } else {
+      return <div> <RedeemIcon/> </div>
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -122,13 +138,15 @@ export default function HorizontalNonLinearStepper() {
           {alertMsg}
         </Alert>
       </Snackbar>
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper nonLinear activeStep={activeStep} alternativeLabel >
         {steps.map((label, index) => (
           <Step key={label}>
             <StepButton
               onClick={handleStep(index)}
               completed={completed[index]}
-            ></StepButton>
+              icon={getIcon(index,currentLevel)}
+            >{label}</StepButton>
+            
           </Step>
         ))}
       </Stepper>
@@ -156,7 +174,7 @@ export default function HorizontalNonLinearStepper() {
                     variant='contained'
                     color='primary'
                     onClick={handleComplete}
-                    disabled={isValid(activeStep, currentLevel)}
+                    disabled={isUnlocked(activeStep, currentLevel)}
                   >
                     Claim Reward
                   </Button>
