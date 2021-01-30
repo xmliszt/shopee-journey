@@ -75,6 +75,7 @@ class HomePage extends Component {
           avatar={this.state.avatar}
         />
         <Quests onaddscore={this._onAddScore.bind(this)} />
+        <div style={{ height: 60 }}></div>
       </div>
     );
   }
