@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Button,
+  Grid,
   List,
   ListSubheader,
   ListItem,
@@ -31,6 +32,7 @@ import {
 import { useState, useEffect } from 'react';
 import Bridge from 'libraries/bridges';
 import { getShopUrl } from 'libraries/utils/url';
+// import './Quests.css';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -38,11 +40,12 @@ function Alert(props) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: '90%',
   },
   listItem: {
-    background:
-      'linear-gradient(45deg, rgba(299, 83, 34, 0.5), rgba(299, 138, 34, 0))',
+    borderRadius: 15,
+    border: '2px solid',
+    borderColor: 'rgba(225,82,65,0.5)'
   },
   dialogTitle: {
     marginLeft: theme.spacing(1),
@@ -145,56 +148,61 @@ function Quests(props) {
           {alertMsg}
         </Alert>
       </Snackbar>
-      <List
-        className={classes.root}
-        subheader={<ListSubheader>Today's Quests</ListSubheader>}
-      >
-        {quests.map((quest) => (
-          <ListItem
-            button
-            key={quest.questID}
-            className={classes.listItem}
-            onClick={() => {
-              setDialogQuest(quest);
-              setOpen(true);
-            }}
-            disabled={quest.isDone}
-          >
-            <ListItemIcon>
-              {(() => {
-                if (quest.isDone) return <CheckCircle color='primary' />;
-                if (quest.questType === 'basic')
-                  return (
-                    <Assignment
-                      color={quest.startedOn !== null ? 'primary' : 'inherit'}
-                    />
-                  );
-                if (quest.questType === 'qa')
-                  return (
-                    <ContactSupport
-                      color={quest.startedOn !== null ? 'primary' : 'inherit'}
-                    />
-                  );
-                if (quest.questType === 'code_sharing')
-                  return (
-                    <Face
-                      color={quest.startedOn !== null ? 'primary' : 'inherit'}
-                    />
-                  );
-              })()}
-            </ListItemIcon>
-            <ListItemText>
-              <span style={{ fontSize: 12 }}>{quest.title}</span>
-            </ListItemText>
-            <Chip
-              size='small'
-              color='primary'
-              label={`+${quest.score}`}
-              variant='outlined'
-            />
-          </ListItem>
-        ))}
-      </List>
+      <div style={{display:"flex", justifyContent:"center"}}>
+
+        <List
+          className={classes.root}
+          subheader={<ListSubheader>Today's Quests</ListSubheader>}
+        >
+          {quests.map((quest) => (
+            <div style={{marginBottom:10}}>
+              <ListItem
+                button
+                key={quest.questID}
+                className={classes.listItem}
+                onClick={() => {
+                  setDialogQuest(quest);
+                  setOpen(true);
+                }}
+                disabled={quest.isDone}
+              >
+                <ListItemIcon>
+                  {(() => {
+                    if (quest.isDone) return <CheckCircle color='primary' />;
+                    if (quest.questType === 'basic')
+                      return (
+                        <Assignment
+                          color={quest.startedOn !== null ? 'primary' : 'inherit'}
+                        />
+                      );
+                    if (quest.questType === 'qa')
+                      return (
+                        <ContactSupport
+                          color={quest.startedOn !== null ? 'primary' : 'inherit'}
+                        />
+                      );
+                    if (quest.questType === 'code_sharing')
+                      return (
+                        <Face
+                          color={quest.startedOn !== null ? 'primary' : 'inherit'}
+                        />
+                      );
+                  })()}
+                </ListItemIcon>
+                <ListItemText>
+                  <span style={{ fontSize: 12 }}>{quest.title}</span>
+                </ListItemText>
+                <Chip
+                  size='small'
+                  color='primary'
+                  label={`+${quest.score}`}
+                />
+              </ListItem>
+            </div>
+          ))}
+        </List>
+
+      </div>
       <Dialog
         maxWidth='lg'
         fullWidth
