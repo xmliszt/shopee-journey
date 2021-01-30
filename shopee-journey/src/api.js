@@ -1,7 +1,6 @@
 // Methods to connect with public APIs
 import consts from 'consts';
 import { get } from 'libraries/utils/fetch';
-import axios from 'axios';
 
 // An example API function
 export async function getFoo() {
