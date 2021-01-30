@@ -6,7 +6,10 @@ import Box from '@material-ui/core/Box';
 import Stepper from './Stepper';
 import { Button, ButtonGroup } from '@material-ui/core';
 
+
 const Profiledisplay = (props) => {
+
+  //---------------------------------------------------UI Styling---------------------------------------------------
   const BorderLinearProgress = withStyles((theme) => ({
     root: {
       height: 10,
@@ -29,9 +32,13 @@ const Profiledisplay = (props) => {
 
   const classes = useStyles();
 
+  //---------------------------------------------------Utilities---------------------------------------------------
+
   const calculateProgress = (currentScore, nextScore) => {
     return Math.round((currentScore / nextScore) * 100);
   };
+
+
 
   return (
     <div className={classes.root}>

@@ -1,4 +1,6 @@
-// Methods to connect with public APIs
+import consts from 'consts';
+import { get } from 'libraries/utils/fetch';
+
 
 // An example API function
 export async function getFoo() {
@@ -16,6 +18,23 @@ export async function getFoo() {
     };
   }
 }
+
+// USER API
+export async function getUserInfo() {
+  const response = await get(`${consts.API_URL}user/get_info`);
+  if (!response || response.error || !response.data) {
+    return {
+      success: false,
+      error: "Please make sure your HACKATHON_USER_TOKEN is up-to-date or you are logged-in in Shopee App",
+    };
+  } else {
+    return {
+      success: true,
+      data: response.data,
+    };
+  }
+}
+
 
 // Quests API
 export function getTodayQuests() {

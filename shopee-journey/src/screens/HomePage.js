@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Quests from '../components/Quests';
 import Profiledisplay from '../components/Profiledisplay';
 import React, { Component } from 'react';
-import { getLevelInfo, getProfileInfo, addScore } from '../api';
+import { getLevelInfo, getProfileInfo, addScore, getUserInfo } from '../api';
 import loadDummyData from '../dummyLoader';
 
 class HomePage extends Component {
@@ -14,10 +14,22 @@ class HomePage extends Component {
       profile: getProfileInfo(),
       level: getProfileInfo()['level'],
       score: getProfileInfo()['score'],
-      username: getProfileInfo()['name'],
-      name: getProfileInfo()['username'],
+      username: "Usernameless",
+      name: getProfileInfo()['name'],
       nextScore: getLevelInfo()[getProfileInfo()['level']]['score'],
+      avatar: null,
     };
+  }
+
+  async componentDidMount() {
+    let profile = await getUserInfo();
+    if (profile["success"]){
+      let data = profile["data"];
+      this.setState({username:data.user_name});
+    } else {
+      let data = profile["error"];
+      this.setState({username:data});
+    }
   }
 
   _getNextScore = () => {
