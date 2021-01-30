@@ -19,6 +19,23 @@ export async function getFoo() {
   }
 }
 
+// USER API
+export async function getUserInfo() {
+  const response = await get(`${consts.API_URL}user/get_info`);
+  if (!response || response.error || !response.data) {
+    return {
+      success: false,
+      error: response.error,
+      error_message: 'Please make sure your HACKATHON_USER_TOKEN is up-to-date or you are logged-in in Shopee App',
+    };
+  } else {
+    return {
+      success: true,
+      data: response.data,
+    }
+  }
+}
+
 // Search Items
 export async function getSearchItems(searchQuery, pageNumber) {
   const response = await get(`${consts.API_URL}item/search`, {
