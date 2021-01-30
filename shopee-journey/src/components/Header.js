@@ -40,7 +40,7 @@ function Header(props) {
           <Typography variant='h6' className={classes.title}>
             {props.title}
           </Typography>
-          <Link to='/browse?q=canon'>
+          <Link to='/leaderboard'>
             <IconButton edge='end' aria-label='leaderboard'>
               <BarChart style={{ color: '#fff' }} />
             </IconButton>

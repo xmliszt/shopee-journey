@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from '../../screens/HomePage';
 import BrowsePage from '../../screens/BrowsePage';
 import VouchersPage from '../../screens/VouchersPage';
+import Leaderboard from '../../screens/Leaderboard';
 import './style.scss';
 
 const theme = createMuiTheme({
@@ -21,6 +22,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <Switch>
           <Route exact path='/' component={HomePage} />
+          <Route path='/leaderboard' component={Leaderboard} />
           <Route
             path='/browse'
             component={() => <BrowsePage query='canon selphy cp1300' />}

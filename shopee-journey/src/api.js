@@ -2,23 +2,6 @@
 import consts from 'consts';
 import { get } from 'libraries/utils/fetch';
 
-// An example API function
-export async function getFoo() {
-  let response = fetch();
-  if (response.ok) {
-    let json = await response.json();
-    return {
-      success: true,
-      data: json,
-    };
-  } else {
-    return {
-      success: false,
-      error: 'Sample error',
-    };
-  }
-}
-
 // USER API
 export async function getUserInfo() {
   const response = await get(`${consts.API_URL}user/get_info`);
@@ -26,13 +9,14 @@ export async function getUserInfo() {
     return {
       success: false,
       error: response.error,
-      error_message: 'Please make sure your HACKATHON_USER_TOKEN is up-to-date or you are logged-in in Shopee App',
+      error_message:
+        'Please make sure your HACKATHON_USER_TOKEN is up-to-date or you are logged-in in Shopee App',
     };
   } else {
     return {
       success: true,
       data: response.data,
-    }
+    };
   }
 }
 
@@ -102,10 +86,22 @@ export function getLevelInfo() {
   return JSON.parse(window.localStorage.getItem('levels'));
 }
 
+export function getLevelMaxScore(level) {
+  const levels = JSON.parse(window.localStorage.getItem('levels'));
+  return levels[level].score;
+}
+
 // Profile API
 
 export function getProfileInfo() {
   return JSON.parse(window.localStorage.getItem('profile'));
+}
+
+// Connection API
+
+export function getUserConnections() {
+  const profile = JSON.parse(window.localStorage.getItem('profile'));
+  return profile.connections;
 }
 
 export function addScore(toAdd) {

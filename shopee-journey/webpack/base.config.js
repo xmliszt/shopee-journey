@@ -134,15 +134,20 @@ module.exports = function(env) {
           ],
         },
         {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
           test: /\.(jpe?g|gif|png)$/,
           loader: 'file-loader',
-          query: 'name=[name].[ext]?[hash]&outputPath=assets/images/&publicPath=/assets/images/',
+          query:
+            'name=[name].[ext]?[hash]&outputPath=assets/images/&publicPath=/assets/images/',
         },
         {
           test: /\.(woff|woff2|ttf|otf|eot)$/,
           loader: 'file-loader',
-          query: 'name=[name].[ext]?[hash]&outputPath=assets/fonts/&publicPath=/assets/fonts/',
-
+          query:
+            'name=[name].[ext]?[hash]&outputPath=assets/fonts/&publicPath=/assets/fonts/',
         },
         {
           test: /\.svg$/,
