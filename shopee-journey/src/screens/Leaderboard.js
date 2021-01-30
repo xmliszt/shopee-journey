@@ -36,13 +36,11 @@ function Leaderboard() {
     let userData = getUserConnections();
     const myProfileInfo = getProfileInfo();
     const myData = {
-      name: myProfileInfo.name,
+      username: myProfileInfo.name,
       score: myProfileInfo.score,
       level: myProfileInfo.level,
       image: myProfileInfo.image,
     };
-    console.log(myData);
-    console.log(userData);
     userData = [myData, ...userData];
     userData.sort(function(a, b) {
       return b.score - a.score;
@@ -93,7 +91,7 @@ function Leaderboard() {
                   </ListItemAvatar>
                   <div style={{ width: '200px' }}>
                     <Typography style={{ fontSize: 15 }}>
-                      {user.name}
+                      {user.username}
                     </Typography>
                     <Box>
                       <Box width='100%' mr={1}>
