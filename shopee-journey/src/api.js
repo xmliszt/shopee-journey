@@ -97,6 +97,10 @@ export function getProfileInfo() {
   return JSON.parse(window.localStorage.getItem('profile'));
 }
 
+export function setProfileInfo(newProfile) {
+  window.localStorage.setItem('profile', JSON.stringify(newProfile));
+}
+
 // Connection API
 
 export function getUserConnections() {

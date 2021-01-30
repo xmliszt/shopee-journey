@@ -2,7 +2,14 @@ import Header from '../components/Header';
 import Quests from '../components/Quests';
 import Profiledisplay from '../components/Profiledisplay';
 import React, { Component } from 'react';
-import { getLevelInfo, getProfileInfo, addScore, getUserInfo } from '../api';
+import {
+  getLevelInfo,
+  getProfileInfo,
+  addScore,
+  getUserInfo,
+  setProfileInfo,
+} from '../api';
+import { getImageUrl } from 'libraries/utils/url';
 import loadDummyData from '../dummyLoader';
 
 class HomePage extends Component {
@@ -14,7 +21,7 @@ class HomePage extends Component {
       profile: getProfileInfo(),
       level: getProfileInfo()['level'],
       score: getProfileInfo()['score'],
-      username: "Loading",
+      username: 'Loading',
       name: getProfileInfo()['name'],
       nextScore: getLevelInfo()[getProfileInfo()['level']]['score'],
       avatar: null,
@@ -22,19 +29,21 @@ class HomePage extends Component {
   }
 
   async componentDidMount() {
-
     let profile = await getUserInfo();
-    if (profile["success"]){
-      let data = profile["data"];
-      this.setState({username:data.user_name});
-      this.setState({avatar:data.avatar});
-      console.log(data.avatar)
-    } else {
-      let data = profile["error_message"];
-      this.setState({username:data});
-      this.setState({avatar:false});
-    }
 
+    if (profile['success']) {
+      let data = profile['data'];
+      this.setState({ username: data.user_name });
+      this.setState({ avatar: data.avatar });
+      let ourProfile = getProfileInfo();
+      ourProfile.name = data.user_name;
+      ourProfile.image = getImageUrl(data.avatar);
+      setProfileInfo(ourProfile);
+    } else {
+      let data = profile['error_message'];
+      this.setState({ username: data });
+      this.setState({ avatar: false });
+    }
   }
 
   _getNextScore = () => {

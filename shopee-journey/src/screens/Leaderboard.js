@@ -36,11 +36,10 @@ function Leaderboard() {
     let userData = getUserConnections();
     const myProfileInfo = getProfileInfo();
     const myData = {
-      username: myProfileInfo.username,
       name: myProfileInfo.name,
       score: myProfileInfo.score,
       level: myProfileInfo.level,
-      image: '#',
+      image: myProfileInfo.image,
     };
     console.log(myData);
     console.log(userData);
