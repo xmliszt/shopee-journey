@@ -4,7 +4,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Stepper from './Stepper';
-import { Button, ButtonGroup } from '@material-ui/core';
 
 const Profiledisplay = (props) => {
   const BorderLinearProgress = withStyles((theme) => ({
@@ -33,9 +32,15 @@ const Profiledisplay = (props) => {
     return Math.round((currentScore / nextScore) * 100);
   };
 
+  const clearLocalStorage = () => {
+    window.localStorage.clear();
+  };
+
   return (
     <div className={classes.root}>
-      <h4>{props.username ? props.username : ''}</h4>
+      <h4 onClick={clearLocalStorage}>
+        {props.username ? props.username : ''}
+      </h4>
       <h4>Level {props.level ? props.level : 0} </h4>
       <Box display='flex' alignItems='center' justifyContent='center'>
         <Box width='80%' mr={1}>
