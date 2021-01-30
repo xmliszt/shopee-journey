@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from '../../screens/HomePage';
 import BrowsePage from '../../screens/BrowsePage';
+import VouchersPage from '../../screens/VouchersPage';
 import './style.scss';
 
 const theme = createMuiTheme({
@@ -24,6 +25,7 @@ function App() {
             path='/browse'
             component={() => <BrowsePage query='canon selphy cp1300' />}
           />
+          <Route path='/vouchers' component={VouchersPage} />
         </Switch>
       </MuiThemeProvider>
     </div>

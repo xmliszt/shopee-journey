@@ -3,6 +3,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ArrowBack, BarChart } from '@material-ui/icons';
 import { Link, LinkBack } from 'libraries/components/Link';
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,11 @@ function Header(props) {
           <Link to='/browse?q=canon'>
             <IconButton edge='end' aria-label='leaderboard'>
               <BarChart style={{ color: '#fff' }} />
+            </IconButton>
+          </Link>
+          <Link to='/vouchers'>
+            <IconButton edge='end' aria-label='vouchers'>
+              <ConfirmationNumberIcon style={{ color: '#fff' }} />
             </IconButton>
           </Link>
         </Toolbar>

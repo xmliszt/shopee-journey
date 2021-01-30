@@ -1,7 +1,7 @@
 // Methods to connect with public APIs
 import consts from 'consts';
-import { getImageUrl } from 'libraries/utils/url';
 import { get } from 'libraries/utils/fetch';
+import axios from 'axios';
 
 // An example API function
 export async function getFoo() {
@@ -114,5 +114,21 @@ export function addScore(toAdd) {
     }
     profile['level'] = currentLevel;
     window.localStorage.setItem('profile', JSON.stringify(profile));
+  }
+}
+
+// vouchers
+export async function getExistingVouchers() {
+  const response = await get(`${consts.API_URL}user/get_vouchers`);
+  if (response && response.data && response.data.vouchers) {
+    return {
+      success: true,
+      data: response.data.vouchers,
+    };
+  } else {
+    return {
+      success: false,
+      error: response.error_msg,
+    };
   }
 }
