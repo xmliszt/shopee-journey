@@ -1,0 +1,36 @@
+@font-face {
+    font-family: gothamExtraLight;
+    src: url(../fonts/gotham-extralight.ttf);
+    font-style: normal;
+  }
+
+
+.ranking{
+    font-family: gothamExtraLight;
+    margin: 10px;
+    font-size: xx-large;
+    font-weight: lighter;
+}
+
+.username{
+    font-family: gothamExtraLight;
+}
+
+.points{
+    font-family: gothamExtraLight;
+    font-weight: bold;
+    color: rgba(0,0,0,0.5);
+}
+
+.level {
+    font-family: gothamExtraLight;
+  }
+
+.MuiAvatar-root{
+    border: 2px solid rgba(244, 67, 54, 0.3);
+}
+
+.MuiLinearProgress-root{
+    margin-top: 13px;
+    height: 5px !important;
+}
