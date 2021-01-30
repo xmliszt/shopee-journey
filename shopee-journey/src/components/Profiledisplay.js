@@ -50,12 +50,16 @@ const Profiledisplay = (props) => {
   //   }
   // }
 
+  const clearLocalStorage = () => {
+    window.localStorage.clear();
+  };
 
   return (
     <div className={classes.root}>
-      <br></br>
       <img src={getImageUrl(props.avatar)} width='100' />
-      <h4>{props.username ? props.username : ''}</h4>
+      <h4 onClick={clearLocalStorage}>
+        {props.username ? props.username : ''}
+      </h4>
       <h4>Level {props.level ? props.level : 0} </h4>
       <Box display='flex' alignItems='center' justifyContent='center'>
         <Box width='80%' mr={1}>

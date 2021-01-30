@@ -2,11 +2,16 @@ import * as React from 'react';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ArrowBack, BarChart } from '@material-ui/icons';
-import { LinkBack } from 'libraries/components/Link';
+import { Link, LinkBack } from 'libraries/components/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 999,
   },
   appBar: {
     background: 'linear-gradient(-180deg,#f53d2d,#f63)',
@@ -14,13 +19,12 @@ const useStyles = makeStyles((theme) => ({
   backButton: {
     marginRight: theme.spacing(2),
   },
-  leaderboardButton: {},
   title: {
     flexGrow: 1,
   },
 }));
 
-function Header() {
+function Header(props) {
   const classes = useStyles();
 
   return (
@@ -33,16 +37,13 @@ function Header() {
             </IconButton>
           </LinkBack>
           <Typography variant='h6' className={classes.title}>
-            Shopee Journey
+            {props.title}
           </Typography>
-          <IconButton
-            edge='end'
-            className={classes.leaderboardButton}
-            color='inherit'
-            aria-label='leaderboard'
-          >
-            <BarChart />
-          </IconButton>
+          <Link to='/browse?q=canon'>
+            <IconButton edge='end' aria-label='leaderboard'>
+              <BarChart style={{ color: '#fff' }} />
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

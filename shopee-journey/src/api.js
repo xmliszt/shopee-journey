@@ -1,6 +1,7 @@
+// Methods to connect with public APIs
 import consts from 'consts';
+import { getImageUrl } from 'libraries/utils/url';
 import { get } from 'libraries/utils/fetch';
-
 
 // An example API function
 export async function getFoo() {
@@ -32,10 +33,35 @@ export async function getUserInfo() {
     return {
       success: true,
       data: response.data,
-    };
+    }
   }
 }
 
+// Search Items
+export async function getSearchItems(searchQuery, pageNumber) {
+  const response = await get(`${consts.API_URL}item/search`, {
+    keyword: searchQuery,
+    offset: pageNumber * 10,
+    limit: 10,
+  });
+  if (response && response.data && response.data.items) {
+    if (response.data.nomore) {
+      return {
+        success: true,
+        data: [],
+      };
+    }
+    return {
+      success: true,
+      data: response.data.items,
+    };
+  } else {
+    return {
+      success: false,
+      error: response.error_msg,
+    };
+  }
+}
 
 // Quests API
 export function getTodayQuests() {

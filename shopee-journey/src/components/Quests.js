@@ -16,6 +16,7 @@ import {
   Chip,
   TextField,
   Snackbar,
+  ButtonGroup,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { getTodayQuests, startQuest, endQuest } from '../api';
@@ -28,6 +29,8 @@ import {
   CheckCircle,
 } from '@material-ui/icons';
 import { useState, useEffect } from 'react';
+import Bridge from 'libraries/bridges';
+import { getShopUrl } from 'libraries/utils/url';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -64,6 +67,7 @@ function Quests(props) {
   const [dialogQuest, setDialogQuest] = useState(null);
   const [quests, setQuests] = useState([]);
   const [hasStarted, setHasStarted] = useState(false);
+  const [userInput, setUserInput] = useState('');
   const classes = useStyles();
 
   const handleAlertClose = (_, reason) => {
@@ -84,11 +88,33 @@ function Quests(props) {
     setAlertOpen(true);
   };
 
+  const isCorrectAnswer = (userInput, answers) => {
+    for (var answer of answers) {
+      if (userInput.toLowerCase() === answer.toLowerCase()) return true;
+    }
+    return false;
+  };
+
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+  };
+
   const handleQuestAction = (quest) => {
     if (quest.startedOn == null) {
       startQuest(quest.questID);
       pushAlert('Quest has started!', 'warning');
+      if (quest.questType === 'qa') {
+        setQuests(getTodayQuests());
+        setOpen(false);
+        Bridge.push(getShopUrl(quest.shopeId));
+      }
     } else {
+      if (quest.questType === 'qa') {
+        if (!isCorrectAnswer(userInput, quest.answer)) {
+          pushAlert('Ooops! Answer is not correct. Try again!', 'warning');
+          return;
+        }
+      }
       endQuest(quest.questID);
       props.onaddscore(quest.score);
       pushAlert(
@@ -98,6 +124,10 @@ function Quests(props) {
     }
     setQuests(getTodayQuests());
     setOpen(false);
+  };
+
+  const handleVisitShop = (quest) => {
+    Bridge.push(getShopUrl(quest.shopeId));
   };
 
   useEffect(() => {
@@ -139,8 +169,18 @@ function Quests(props) {
                       color={quest.startedOn !== null ? 'primary' : 'inherit'}
                     />
                   );
-                if (quest.questType === 'qa') return <ContactSupport />;
-                if (quest.questType === 'code_sharing') return <Face />;
+                if (quest.questType === 'qa')
+                  return (
+                    <ContactSupport
+                      color={quest.startedOn !== null ? 'primary' : 'inherit'}
+                    />
+                  );
+                if (quest.questType === 'code_sharing')
+                  return (
+                    <Face
+                      color={quest.startedOn !== null ? 'primary' : 'inherit'}
+                    />
+                  );
               })()}
             </ListItemIcon>
             <ListItemText>
@@ -206,8 +246,11 @@ function Quests(props) {
                       label='Your answer...'
                       helperText='Enter your answer to complete the quest'
                       fullWidth
+                      autoComplete={false}
                       margin='normal'
                       variant='outlined'
+                      value={userInput}
+                      onChange={handleInputChange}
                     />
                   </div>
                 ) : null;
@@ -216,20 +259,61 @@ function Quests(props) {
           })()}
         </DialogContent>
         <DialogActions>
-          <Button
-            className={classes.actionButton}
-            onClick={() => {
-              handleQuestAction(dialogQuest);
-            }}
-          >
-            {dialogQuest != null
-              ? dialogQuest.startedOn !== null || hasStarted
-                ? dialogQuest.type !== 'basic'
-                  ? 'Submit'
-                  : 'Finish Quest'
-                : 'Start Quest'
-              : 'Start Quest'}
-          </Button>
+          {dialogQuest != null ? (
+            dialogQuest.startedOn !== null || hasStarted ? (
+              dialogQuest.questType === 'basic' ? (
+                <Button
+                  className={classes.actionButton}
+                  onClick={() => {
+                    handleQuestAction(dialogQuest);
+                  }}
+                >
+                  Finish Quest
+                </Button>
+              ) : dialogQuest.questType === 'qa' ? (
+                <ButtonGroup>
+                  <Button
+                    className={classes.actionButton}
+                    onClick={() => {
+                      handleVisitShop(dialogQuest);
+                    }}
+                  >
+                    Visit Shop
+                  </Button>
+                  <Button
+                    className={classes.actionButton}
+                    onClick={() => {
+                      handleQuestAction(dialogQuest);
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </ButtonGroup>
+              ) : dialogQuest.questType === 'code_sharing' ? (
+                <Button
+                  className={classes.actionButton}
+                  onClick={() => {
+                    handleQuestAction(dialogQuest);
+                  }}
+                >
+                  Connect With Friends
+                </Button>
+              ) : (
+                ''
+              )
+            ) : (
+              <Button
+                className={classes.actionButton}
+                onClick={() => {
+                  handleQuestAction(dialogQuest);
+                }}
+              >
+                Start Quest
+              </Button>
+            )
+          ) : (
+            ''
+          )}
         </DialogActions>
       </Dialog>
     </div>
