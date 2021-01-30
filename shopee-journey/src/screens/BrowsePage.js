@@ -8,6 +8,7 @@ import { Rating } from '@material-ui/lab';
 import MuiAlert from '@material-ui/lab/Alert';
 import { getImageUrl } from 'libraries/utils/url';
 import { withRouter } from 'react-router-dom';
+import { LinkToProduct } from 'libraries/components/Link';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -146,30 +147,27 @@ function BrowsePage({ location }) {
 
       <div id='browseAnchor' className={classes.gridContainer}>
         {items.map((item, idx) => (
-          <Paper
-            elevation={2}
-            square
-            key={idx}
-            className={classes.itemContainer}
-          >
-            <div style={{ textAlign: 'right' }}>
-              <span className={classes.quantityText}>
-                {item.stock} in stock
-              </span>
-            </div>
-            <img src={getImageUrl(item.cover)} width='100%' />
-            <div className={classes.itemName}>{item.name}</div>
-            <div className={classes.priceText}>S${item.price}</div>
-            <div className={classes.extraInfo}>
-              <Rating
-                name='item-rating'
-                defaultValue={item.rating}
-                precision={0.1}
-                size='small'
-              />
-              <span className={classes.soldText}>{item.sold} sold</span>
-            </div>
-          </Paper>
+          <LinkToProduct key={idx} shopid={item.shop_id} itemid={item.item_id}>
+            <Paper elevation={2} square className={classes.itemContainer}>
+              <div style={{ textAlign: 'right' }}>
+                <span className={classes.quantityText}>
+                  {item.stock} in stock
+                </span>
+              </div>
+              <img src={getImageUrl(item.cover)} width='100%' />
+              <div className={classes.itemName}>{item.name}</div>
+              <div className={classes.priceText}>S${item.price}</div>
+              <div className={classes.extraInfo}>
+                <Rating
+                  name='item-rating'
+                  defaultValue={item.rating}
+                  precision={0.1}
+                  size='small'
+                />
+                <span className={classes.soldText}>{item.sold} sold</span>
+              </div>
+            </Paper>
+          </LinkToProduct>
         ))}
       </div>
       {loading ? <div className={classes.noMore}>Loading...</div> : ''}
