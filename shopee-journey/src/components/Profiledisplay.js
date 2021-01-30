@@ -40,15 +40,6 @@ const Profiledisplay = (props) => {
     return Math.round((currentScore / nextScore) * 100);
   };
 
-  // const getProfilePic = (props) => {
-  //   if (props.avatar) {
-  //     console.log("getting avatar")
-  //     return <div> <img src={getImageUrl(props.avatar)} width='100' /> </div>;
-  //   } else {
-  //     console.log("failed avatar")
-  //     return <div> <AccountCircleIcon width='100'/> </div>;
-  //   }
-  // }
 
   const clearLocalStorage = () => {
     window.localStorage.clear();

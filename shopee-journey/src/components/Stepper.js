@@ -1,20 +1,18 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
-import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { getLevelInfo, getProfileInfo } from '../api';
 import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
-import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
-import PinDropIcon from '@material-ui/icons/PinDrop';
 import RedeemIcon from '@material-ui/icons/Redeem';
-import StepConnector from '@material-ui/core/StepConnector';
 import ExploreIcon from '@material-ui/icons/Explore';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import StepConnector from '@material-ui/core/StepConnector';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +28,23 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  unlocked: {
+    color: '#f44336',
+  },
+  locked: {
+    color: 'rgba(244, 67, 54, 0.3)',
+  },
+  activeUnlocked: {
+    color: '#ffffff',
+    backgroundColor: '#f44336',
+  },
+  activeLocked: {
+    color: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(244, 67, 54, 0.3)',
+  },
+
 }));
+
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -117,15 +131,41 @@ export default function HorizontalNonLinearStepper() {
     return cLvl + 1 > cStep;
   };
 
-  const getIcon = (index,cLvl) => {
-    if (index+1 == cLvl) {
-      return <div> <PersonPinCircleIcon/> </div>
-    } else if (index+1 > cLvl) {
-      return <div> <ExploreIcon/> </div>
+  const getIcon = (index,cLvl,cStep) => {
+    if (cStep != index){
+      if (index+1 == cLvl && completed[index]) {
+        return <div> <PersonPinCircleIcon className={classes.unlocked}/> </div>
+      } else if (completed[index]) {
+        return <div> <CheckCircleIcon className={classes.unlocked}/> </div>
+      } else if (index+1 > cLvl) {
+        return <div> <ExploreIcon className={classes.locked}/> </div>
+      } else {
+        return <div> <RedeemIcon className={classes.unlocked}/> </div>
+      }
     } else {
-      return <div> <RedeemIcon/> </div>
+      if (index+1 == cLvl && completed[index]) {
+        return <div> <PersonPinCircleIcon className={classes.activeUnlocked}/> </div>
+      } else if (completed[index]) {
+        return <div> <CheckCircleIcon className={classes.activeUnlocked}/> </div>
+      } else if (index+1 > cLvl) {
+        return <div> <ExploreIcon className={classes.activeLocked}/> </div>
+      } else {
+        return <div> <RedeemIcon className={classes.activeUnlocked}/> </div>
+      }
     }
   }
+
+
+
+  const unlockedConnector = withStyles({
+    line: {
+      borderColor: '#eaeaf0',
+      borderTopWidth: 3,
+      borderRadius: 1,
+      backgroundImage:
+        'linear-gradient(90deg,#f53d2d,#f63)',
+    },
+  })(StepConnector);
 
   return (
     <div className={classes.root}>
@@ -138,13 +178,13 @@ export default function HorizontalNonLinearStepper() {
           {alertMsg}
         </Alert>
       </Snackbar>
-      <Stepper nonLinear activeStep={activeStep} alternativeLabel >
+      <Stepper nonLinear activeStep={activeStep} alternativeLabel connector={<unlockedConnector/>} >
         {steps.map((label, index) => (
           <Step key={label}>
             <StepButton
               onClick={handleStep(index)}
               completed={completed[index]}
-              icon={getIcon(index,currentLevel)}
+              icon={getIcon(index,currentLevel,activeStep)}
             >{label}</StepButton>
             
           </Step>
