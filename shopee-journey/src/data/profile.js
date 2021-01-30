@@ -21,8 +21,8 @@ export const profile = {
     {
       username: 'lll',
       name: 'Liu Le Le',
-      score: 40,
-      level: 3,
+      score: 20,
+      level: 2,
       image: 'https://i.ibb.co/qmwmz90/spongebob.jpg',
     },
   ],
